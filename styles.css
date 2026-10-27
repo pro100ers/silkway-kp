@@ -1,0 +1,491 @@
+/* КП для Silkway Cargo: ведомость, а не лендинг. Цена в первом экране, тёмная панель только под доказательства. */
+
+:root {
+  --bg: #F4F1EA;
+  --ink: #10192B;
+  --ink-2: #1B2740;
+  --muted: #5B6678;
+  --muted-dk: #9FABBD;
+  --line: #E6E1D6;
+  --line-dk: rgba(159, 171, 189, 0.28);
+  --card: #FFFFFF;
+  --accent: #D9451C;
+  --accent-dk: #B23412;
+
+  --head: 'Unbounded', 'Arial Black', Arial, sans-serif;
+  --text: 'Manrope', Arial, sans-serif;
+
+  --wrap: 1120px;
+  --gutter: 20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+img { max-width: 100%; display: block; height: auto; }
+h1, h2, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+b { font-weight: inherit; }
+
+.wrap {
+  max-width: var(--wrap);
+  padding: 0 var(--gutter);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.nowrap { white-space: nowrap; }
+
+/* ---------- Типографика ---------- */
+
+.h1 {
+  font-family: var(--head);
+  font-weight: 900;
+  font-size: clamp(36px, 1.4rem + 3.6vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  max-width: 14ch;
+}
+
+.h2 {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: clamp(24px, 1.2rem + 1.2vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* Короткая подпись с чертой слева. Без капса: текст на странице совпадает с COPY.md буква в букву */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.label::before {
+  content: '';
+  flex: none;
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+}
+.label--dark { color: var(--muted-dk); }
+
+.lead {
+  font-size: clamp(18px, 1rem + 0.4vw, 21px);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 34em;
+}
+
+/* ---------- Шапка: на телефоне имя над датой, на десктопе в одну строку ---------- */
+
+.top { border-bottom: 1px solid var(--line); }
+.top__row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.top__name {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 15px;
+}
+.top__note {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---------- Оффер ---------- */
+
+.hero__inner {
+  padding-top: 32px;
+  padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hero__inner .h1 { margin-top: 2px; }
+.hero__inner .lead { margin-bottom: 18px; }
+
+/* Три факта: ведомость с верхней чертой 2px и тонкими линиями */
+.strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 2px solid var(--ink);
+}
+.strip__cell {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.strip__label {
+  order: 2;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--muted);
+  text-align: right;
+}
+.strip__value {
+  order: 1;
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Цена: итоговая строка ведомости, закрыта нижней чертой 2px */
+.price {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px 40px;
+  padding-top: 18px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+}
+.price__main { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.price__value {
+  font-family: var(--head);
+  font-weight: 900;
+  font-size: clamp(44px, 1.6rem + 3.2vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.price__side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.terms {
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+.terms li {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+.terms li:last-child { border-bottom: 1px solid var(--line); }
+
+/* ---------- Кнопка ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 28px;
+  background: var(--accent);
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 19px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: background-color 150ms ease;
+  width: 100%;
+}
+.btn:hover, .btn:focus-visible { background: var(--accent-dk); color: #FFFFFF; }
+.btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- План: две ведомости ---------- */
+
+.plan .wrap {
+  padding-top: 44px;
+  padding-bottom: 48px;
+}
+.plan__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px 56px;
+}
+.ledger__title {
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+}
+.row {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.rows--days .row { grid-template-columns: 96px 1fr; }
+.row__key {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.row__key--day {
+  font-family: var(--text);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--ink);
+}
+.row__text {
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* ---------- Доказательства ---------- */
+
+.proof {
+  background: var(--ink);
+  color: var(--bg);
+}
+.proof .wrap {
+  padding-top: 44px;
+  padding-bottom: 44px;
+  display: flex;
+  flex-direction: column;
+}
+.proof__head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 28px;
+}
+.proof__lead {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--muted-dk);
+  max-width: 36em;
+}
+
+.case {
+  border-top: 1px solid var(--line-dk);
+  padding: 28px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px 40px;
+}
+.case:last-child { padding-bottom: 0; }
+.case__data {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.case__big {
+  font-family: var(--head);
+  font-weight: 900;
+  font-size: clamp(28px, 1.2rem + 2.2vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.case__big--huge {
+  font-size: clamp(64px, 2rem + 5.5vw, 112px);
+  line-height: 0.95;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+}
+.case__sub {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: -2px;
+}
+.case__figs {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--muted-dk);
+  margin-top: 6px;
+}
+.case__figs b {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 1.3em;
+  color: var(--bg);
+  letter-spacing: -0.01em;
+}
+/* Скрин кабинета как экспонат: рамка, белое паспарту, подпись в полосе под линией */
+.exhibit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  background: var(--card);
+  border: 1px solid var(--line-dk);
+  border-radius: 8px;
+  min-width: 0;
+}
+.exhibit__shot {
+  display: block;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--card);
+}
+.exhibit__shot:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.exhibit__shot img { width: 100%; }
+.exhibit__cap {
+  margin: 2px -6px -6px;
+  padding: 9px 12px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ---------- Честная строка ---------- */
+
+.honest .wrap {
+  padding-top: 36px;
+  padding-bottom: 8px;
+}
+.honest__text {
+  border-left: 2px solid var(--ink);
+  padding-left: 18px;
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 40em;
+}
+
+/* ---------- Финал и подпись ---------- */
+
+.cta .wrap { padding-top: 44px; padding-bottom: 0; }
+.cta__row {
+  border-top: 2px solid var(--ink);
+  padding-top: 28px;
+  padding-bottom: 36px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px 40px;
+  align-items: center;
+}
+.cta__text { display: flex; flex-direction: column; gap: 10px; }
+.cta__title {
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: clamp(26px, 1.2rem + 1.8vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.cta__lead {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 30em;
+}
+
+.sign__row {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  padding-bottom: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.sign__name { font-weight: 600; color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Планшет и десктоп ---------- */
+
+@media (min-width: 720px) {
+  :root { --gutter: 24px; }
+
+  .top__row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+  }
+  .top__name { font-size: 17px; }
+
+  .hero__inner {
+    padding-top: 64px;
+    padding-bottom: 16px;
+    gap: 18px;
+  }
+  .hero__inner .lead { margin-bottom: 36px; }
+  .label { font-size: 15px; }
+
+  .strip { grid-template-columns: repeat(3, 1fr); }
+  .strip__cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 24px 22px 0;
+  }
+  .strip__cell + .strip__cell { padding-left: 24px; border-left: 1px solid var(--line); }
+  .strip__label { order: 1; text-align: left; }
+  .strip__value { order: 2; font-size: 40px; }
+
+  .price {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+    padding-top: 26px;
+    padding-bottom: 32px;
+  }
+  .price__side { gap: 22px; }
+  .btn { width: auto; }
+  .price__side .btn { align-self: flex-start; }
+
+  .plan .wrap { padding-top: 64px; padding-bottom: 64px; }
+  /* subgrid: заголовки двух ведомостей в одной строке сетки, линии под ними на одной высоте, даже если один заголовок в две строки */
+  .plan__grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; row-gap: 0; }
+  .ledger { display: grid; grid-template-rows: subgrid; grid-row: span 2; }
+  .row { padding: 18px 0; grid-template-columns: 64px 1fr; }
+  .rows--days .row { grid-template-columns: 112px 1fr; }
+  .row__key--day { font-size: 16px; }
+
+  .proof .wrap { padding-top: 64px; padding-bottom: 64px; }
+  .proof__head { padding-bottom: 36px; }
+  .proof__lead { font-size: 18px; }
+  .case {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: center;
+    padding: 40px 0;
+  }
+  .case:last-child { padding-bottom: 8px; }
+  .case__sub { font-size: 20px; }
+  .exhibit { padding: 8px; gap: 8px; }
+  .exhibit__cap { margin: 2px -8px -8px; padding: 10px 14px; }
+
+  .honest .wrap { padding-top: 48px; padding-bottom: 8px; }
+  .honest__text { font-size: 19px; padding-left: 22px; }
+
+  .cta .wrap { padding-top: 56px; }
+  .cta__row {
+    grid-template-columns: 1fr auto;
+    padding-top: 36px;
+    padding-bottom: 48px;
+  }
+  .btn--lg { min-height: 64px; padding: 0 36px; font-size: 20px; }
+
+  .sign__row { padding-top: 22px; padding-bottom: 44px; font-size: 15px; }
+}
